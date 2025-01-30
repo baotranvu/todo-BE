@@ -22,9 +22,13 @@ class LoginController extends Controller
         if(!auth()->user()->hasVerifiedEmail()) {
             return $this->unauthorized('Please verify your email', null);
         }
-        $token = auth()->user()->createToken('api_token')->plainTextToken;
+        //create token
+        $token = auth()->user()->createToken(auth()->user()->email, ['*'], now()->addMinutes(intval(env('SANCTUM_EXPIRATION', 15))))->plainTextToken;
+        //session
+        session()->regenerate();
+        session()->put('token', $token);
         //init cookie
-        $cookie = cookie('api_token', $token, 15, null, null, false, true);
+        $cookie = cookie('api_token', $token, env('SANCTUM_EXPIRATION', 15), null, null, false, true);
         return $this->successResponse([
                 'token' => $token,
                 'user' => auth()->user()
