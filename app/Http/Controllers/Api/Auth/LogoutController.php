@@ -15,9 +15,14 @@ class LogoutController extends Controller
     use ApiResponse;
     public function __invoke(Request $request)
     {
-        session()->invalidate();
-        $request->user()->currentAccessToken()->delete();
-        Auth::guard('web')->logout();
+        try {
+            session()->invalidate();
+            $request->user()->currentAccessToken()->delete();
+            Auth::guard('web')->logout();
+        } catch (\Exception $e) {
+            \Log::error('Logout failed: ' . $e->getMessage());
+            return $this->error('Failed to process logout request');
+        }
 
         return $this->noContent()->withCookie(cookie()->forget('api_token'));
     }
