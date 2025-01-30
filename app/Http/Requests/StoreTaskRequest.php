@@ -23,6 +23,11 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
+            'priority' => 'required|string|in:low,medium,high',
+            'description' => 'required|string|max:255',
+            'progress' => 'required|integer|between:0,100',
+            'start_date' => 'required|date',
+            'due_date' => 'required|date',
         ];
     }
 }

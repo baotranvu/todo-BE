@@ -18,6 +18,11 @@ class Task extends Model
     protected $fillable = [
         'name',
         'is_completed', // Add this line
+        'priority',
+        'description',
+        'progress',
+        'start_date',
+        'due_date',
     ];
 
     public function user ()
