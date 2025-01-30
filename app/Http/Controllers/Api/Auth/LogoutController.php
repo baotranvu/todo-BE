@@ -21,7 +21,7 @@ class LogoutController extends Controller
             Auth::guard('web')->logout();
         } catch (\Exception $e) {
             \Log::error('Logout failed: ' . $e->getMessage());
-            return $this->error($e->getMessage());
+            return $this->error('Failed to process logout request');
         }
 
         return $this->noContent()->withCookie(cookie()->forget('api_token'));

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\TaskPriority;
 
 class Task extends Model
 {
@@ -28,7 +29,7 @@ class Task extends Model
     protected $casts = [
         'name' => 'string',
         'is_completed' => 'boolean',
-        'priority' => 'integer',
+        'priority' => TaskPriority::class,
         'description' => 'string',
         'progress' => 'integer',
         'start_date' => 'datetime',
