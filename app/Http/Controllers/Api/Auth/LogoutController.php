@@ -15,9 +15,10 @@ class LogoutController extends Controller
     use ApiResponse;
     public function __invoke(Request $request)
     {
-       $request->user()->currentAccessToken()->delete();
-       Auth::guard('web')->logout();
+        session()->invalidate();
+        $request->user()->currentAccessToken()->delete();
+        Auth::guard('web')->logout();
 
-       return $this->noContent()->withCookie(cookie()->forget('api_token'));
+        return $this->noContent()->withCookie(cookie()->forget('api_token'));
     }
 }
