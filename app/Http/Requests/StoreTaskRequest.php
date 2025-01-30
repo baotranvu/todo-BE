@@ -26,8 +26,8 @@ class StoreTaskRequest extends FormRequest
             'priority' => 'required|string|in:low,medium,high',
             'description' => 'required|string|max:255',
             'progress' => 'required|integer|between:0,100',
-            'start_date' => 'required|date',
-            'due_date' => 'required|date',
+            'start_date' => 'required|date|before_or_equal:due_date',
+            'due_date' => 'required|date|after_or_equal:start_date',
         ];
     }
 }
