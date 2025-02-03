@@ -22,8 +22,9 @@ class TaskFactory extends Factory
             'priority' => $this->faker->randomElement(['low', 'medium', 'high', 'critical']),
             'progress' => $this->faker->numberBetween(0, 10) * 10,
             'description' => $this->faker->sentence,
-            'start_date' => $this->faker->dateTime,
-            'due_date' => $this->faker->dateTime,
+            //start_date and due_date in 2025 and start_date must be before due_date
+            'start_date' => $this->faker->dateTimeBetween('2025-01-01', '2025-01-31'),
+            'due_date' => $this->faker->dateTimeBetween($this->faker->dateTimeBetween('2025-01-01', '2025-01-31'), '2025-02-28'),
         ];
     }
 }

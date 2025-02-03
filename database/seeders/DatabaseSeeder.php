@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $chunkSize = 9000; // Number of tasks per chunk
+        $chunkSize = 10000; // Number of tasks per chunk
         $totalTasksPerUser = 100000; // Total tasks per user
         $users = User::factory(5)->create(); // Create 5 users
 
