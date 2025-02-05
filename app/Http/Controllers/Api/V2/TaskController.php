@@ -10,6 +10,7 @@ use App\Http\Resources\TaskResource;
 use Illuminate\Support\Facades\Gate;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskController extends Controller
 {
@@ -97,8 +98,18 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Request $request, $id)
     {
+        try {
+            $task = Task::findOrFail($id);
+        } catch (ModelNotFoundException $e) {
+            return $this->notFound('Task not found', null);
+        }
+
+        if ($request->user()->cannot('delete', $task)) {
+            return $this->forbidden('You are not authorized to delete this task', null);
+        }
+
         $task->delete();
 
         return $this->noContent();
