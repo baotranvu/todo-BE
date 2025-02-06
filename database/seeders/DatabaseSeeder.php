@@ -14,6 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        //crate one admin user
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+        ]);
         $chunkSize = 10000; // Number of tasks per chunk
         $totalTasksPerUser = 100000; // Total tasks per user
         $users = User::factory(5)->create(); // Create 5 users

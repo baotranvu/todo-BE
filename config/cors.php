@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL'), 'http://todo-list-dev.com:5173'],
+    'allowed_origins' => [env('FRONTEND_URL'), 'http://todo-list-dev.com:5173', 'http://todo-list-dev.com'],
 
     'allowed_origins_patterns' => [],
 
