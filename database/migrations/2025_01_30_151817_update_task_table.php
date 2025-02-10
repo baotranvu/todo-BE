@@ -14,7 +14,7 @@ return new class extends Migration
         $table = Schema::hasTable('tasks');
         if ($table) {
             Schema::table('tasks', function (Blueprint $table) {
-                $table->enum('priority', ['low', 'medium', 'high', 'critical'])->after('is_completed')->nullable()->default('low');
+                $table->enum('priority', ['low', 'medium', 'high'])->after('is_completed')->nullable()->default('low');
                 $table->string('description')->after('name')->nullable();
                 $table->tinyInteger('progress')->after('priority')->nullable()->default(0);
                 $table->timestamp('start_date')->after('progress')->nullable();

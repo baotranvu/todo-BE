@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
 class ClearLast7DaysLogs extends Command
 {
@@ -25,11 +26,20 @@ class ClearLast7DaysLogs extends Command
      */
     public function handle()
     {
-        $logsPath = storage_path('logs');
-
-        $command = "find $logsPath -type f -mtime +7 -exec rm {} \;";
-        exec($command);
-
-        $this->info('Logs cleared successfully.');
+        $files = File::files(storage_path('logs'));
+        $deletedFiles = [];
+    
+        foreach ($files as $file) {
+            if ($file->getMTime() < now()->subDays(7)->getTimestamp()) {
+                File::delete($file);
+                $deletedFiles[] = $file->getFilename();
+            }
+        }
+    
+        if (!empty($deletedFiles)) {
+            $this->info('Logs cleared successfully: ' . implode(', ', $deletedFiles));
+        } else {
+            $this->info('No logs to clear.');
+        }
     }
 }
