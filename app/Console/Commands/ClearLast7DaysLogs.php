@@ -26,13 +26,22 @@ class ClearLast7DaysLogs extends Command
      */
     public function handle()
     {
-        $files = File::files(storage_path('logs'));
+        try {
+            $files = File::files(storage_path('logs'));
+        } catch (\Exception $e) {
+            $this->error("Failed to read logs directory: {$e->getMessage()}");
+            return 1;
+        }
         $deletedFiles = [];
     
         foreach ($files as $file) {
             if ($file->getMTime() < now()->subDays(7)->getTimestamp()) {
-                File::delete($file);
-                $deletedFiles[] = $file->getFilename();
+                try {
+                    File::delete($file);
+                    $deletedFiles[] = $file->getFilename();
+                } catch (\Exception $e) {
+                    $this->warn("Failed to delete {$file->getFilename()}: {$e->getMessage()}");
+                }
             }
         }
     
